@@ -4,11 +4,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class AppTest {
+public class Jdbc2JsonTest {
 
   @Test
   public void evaluatesExpression() {
-    App app = new App();
-    assertNotNull("App should be instantiated", app);
+    Jdbc2Json jdbc2Json = new Jdbc2Json();
+    assertNotNull("Jdbc2Json should be instantiated", jdbc2Json);
   }
 }

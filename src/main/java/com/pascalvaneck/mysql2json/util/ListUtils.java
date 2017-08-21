@@ -1,5 +1,6 @@
 package com.pascalvaneck.mysql2json.util;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +8,8 @@ import java.util.stream.Collectors;
 
 public class ListUtils {
 
-    public static <T> List<List <T>> allPermutations(List<T> list) {
+    @Nonnull
+    public static <T> List<List <T>> allPermutations(@Nonnull List<T> list) {
         if (list.size() == 1) {
             return Collections.singletonList(Collections.singletonList(list.get(0)));
         }
@@ -22,7 +24,8 @@ public class ListUtils {
         return result;
     }
 
-    static <T> List<T> listWithoutOneElement(List<T> list, T item) {
+    @Nonnull
+    static <T> List<T> listWithoutOneElement(@Nonnull List<T> list, T item) {
         return list.stream().filter(item2 -> item2 != item).collect(Collectors.toList());
     }
 

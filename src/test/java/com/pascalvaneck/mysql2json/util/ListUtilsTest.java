@@ -60,6 +60,20 @@ public class ListUtilsTest {
     }
 
     @Test
+    public void testRemoveNullElement() {
+        List<String> myList = new ArrayList<>(Arrays.asList("a", "b"));
+        List<String> result = ListUtils.listWithoutOneElement(myList, null);
+        assertEquals("Result has two elements", 2, result.size());
+        assertEquals("First element is a", "a", result.get(0));
+        assertEquals("Second element is b", "b", result.get(1));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testRemoveFromNull() {
+        List<String> result = ListUtils.listWithoutOneElement(null, "a");
+    }
+
+    @Test
     public void allPermutationsEmptyList() {
         List<String> myList = Collections.emptyList();
         assertEquals("allPermutations on empty list returns list of empty list", 0,

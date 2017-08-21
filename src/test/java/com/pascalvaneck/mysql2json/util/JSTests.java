@@ -29,9 +29,9 @@ public class JSTests {
 
     @Test
     public void isJSEngineRunning() {
-        rootFolder.setFile("testmod.js", "module.exports = { helloWorld: function() { print('Hello world!');}};");
+        rootFolder.setFile("testmod.js", "module.exports = '{ \"snapshotId\": { \"1\": { \"nodeId\": { \"2\": { \"key1\": 3 }}}}}';");
         try {
-            engine.eval("var my = require('testmod.js'); my.helloWorld(); print('inside test');");
+            engine.eval("var my = require('testmod.js'); var v=JSON.parse(my); print(v); print('Value is:' + v.snapshotId[\"1\"].nodeId[\"2\"].key1 +'.');");
         } catch (ScriptException e) {
             e.printStackTrace();
         }
