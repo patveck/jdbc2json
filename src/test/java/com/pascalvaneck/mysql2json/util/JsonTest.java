@@ -24,7 +24,7 @@ public class JsonTest {
         try {
             LOG.info(JSON.std.asString(map));
         } catch (IOException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
     }
 }

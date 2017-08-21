@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,12 +32,12 @@ public class BaseExporterTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws IOException {
         fs.close();
     }
 
     @Test
-    public void visitDb() throws Exception {
+    public void visitDb() throws IOException {
         BaseExporter be = new BaseExporter(root) {
             @Override
             public void visitRow(@Nonnull final Map<String, Object> row) {

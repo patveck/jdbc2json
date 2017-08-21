@@ -20,7 +20,7 @@ public class TableCrawler {
 
     private static final Pattern SQL92_IDENTIFIER_PATTERN = Pattern.compile("[A-Za-z]\\w*");
 
-    private Connection conn;
+    private final Connection conn;
 
     public TableCrawler(Connection conn) {
         this.conn = conn;
@@ -59,8 +59,6 @@ public class TableCrawler {
             while (rs.next()) {
                 result.put(rs.getString("COLUMN_NAME"), rs.getShort("KEY_SEQ"));
             }
-        } catch (SQLException e) {
-            throw e;
         }
         return result;
     }

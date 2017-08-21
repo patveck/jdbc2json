@@ -96,7 +96,7 @@ public class JsonExporterTest {
     @Test
     public void testVisitFourRowsTwoKeys() throws IOException {
         try (Writer sw = new StringWriter()) {
-            JsonExporter je = new JsonExporter(sw, new ArrayList<String>(Arrays.asList("key1", "key2")));
+            JsonExporter je = new JsonExporter(sw, new ArrayList<>(Arrays.asList("key1", "key2")));
             Map<String, Object> given = new HashMap<>();
             given.put("key1", "a");
             given.put("key2", 1);
@@ -133,7 +133,7 @@ public class JsonExporterTest {
     @Test
     public void testVisitTwoRowsTwoKeys() throws IOException {
         try (Writer sw = new StringWriter()) {
-            JsonExporter je = new JsonExporter(sw, new ArrayList<String>(Arrays.asList("key1", "key2")));
+            JsonExporter je = new JsonExporter(sw, new ArrayList<>(Arrays.asList("key1", "key2")));
             Map<String, Object> given = new HashMap<>();
             given.put("key1", "a");
             given.put("key2", 1);

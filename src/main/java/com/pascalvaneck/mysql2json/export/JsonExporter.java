@@ -18,7 +18,7 @@ public class JsonExporter extends BaseExporter {
 
     private static final Log LOG = LogFactory.getLog(JsonExporter.class);
 
-    private JsonFactory jf = new JsonFactory();
+    private final JsonFactory jf = new JsonFactory();
 
     private JsonGenerator jg;
 
@@ -26,7 +26,7 @@ public class JsonExporter extends BaseExporter {
 
     private final List<String> keyColumnNames;
 
-    private LinkedList<String> processedKeys = new LinkedList<>();
+    private final LinkedList<String> processedKeys = new LinkedList<>();
     private boolean arrayStarted = false;
 
     public JsonExporter(Path path, @Nonnull final List<String> keyColumnNames) {
@@ -80,14 +80,14 @@ public class JsonExporter extends BaseExporter {
     private void visitRow(@Nonnull Map<String, Object> row, int index) throws IOException {
         if (keyColumnNames.size() == index) {
             assert processedKeys.size() == index : "Processed keys stack has " + processedKeys.size() + " items while index is " + index;
-            if (keyColumnNames.size() == 0 && !arrayStarted) {
+            if (keyColumnNames.isEmpty() && !arrayStarted) {
                 jg.writeStartArray();
                 arrayStarted = true;
             }
             exportNonKeyColumns(row);
         } else {
             exportKeyColumn(row, index);
-            visitRow((Map<String, Object>) row, index + 1);
+            visitRow(row, index + 1);
         }
         previousRow = row;
     }

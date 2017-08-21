@@ -7,13 +7,13 @@ import org.apache.commons.logging.LogFactory;
 
 import java.util.HashMap;
 
-public class CachedFolder extends AbstractFolder {
+public final class CachedFolder extends AbstractFolder {
 
     private static final Log LOG = LogFactory.getLog(CachedFolder.class);
 
-    private Folder backingFolder = null;
+    private final Folder backingFolder;
 
-    private HashMap<String, String> memFiles = null;
+    private final HashMap<String, String> memFiles;
 
     private CachedFolder(Folder parent, String path, Folder backingFolder) {
         super(parent, path);

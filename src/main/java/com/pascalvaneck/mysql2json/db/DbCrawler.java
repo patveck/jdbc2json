@@ -14,22 +14,22 @@ public class DbCrawler {
 
     private static final Log LOG = LogFactory.getLog(DbCrawler.class);
 
-    private Connection conn;
+    private final Connection conn;
 
     public DbCrawler(String url) throws SQLException {
         conn = DriverManager.getConnection(url);
     }
 
     public void crawl(@Nonnull DbVisitor visitor) throws SQLException {
-        DatabaseMetaData md = conn.getMetaData();
-        ResultSet rs = md.getTables(conn.getCatalog(), conn.getSchema(), "%", null);
-        while (rs.next()) {
-            String tableName = rs.getString("TABLE_NAME");
-            visitor.visitTable(tableName);
-            TableCrawler tc = new TableCrawler(conn);
-            tc.crawl(tableName, visitor);
+        final DatabaseMetaData md = conn.getMetaData();
+        try (final ResultSet rs = md.getTables(conn.getCatalog(), conn.getSchema(), "%", null)) {
+            while (rs.next()) {
+                String tableName = rs.getString("TABLE_NAME");
+                visitor.visitTable(tableName);
+                TableCrawler tc = new TableCrawler(conn);
+                tc.crawl(tableName, visitor);
+            }
         }
-        rs.close();
     }
 
 }

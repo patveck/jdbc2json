@@ -3,6 +3,8 @@ package com.pascalvaneck.mysql2json.util;
 import com.coveo.nashorn_modules.Require;
 import com.coveo.nashorn_modules.ResourceFolder;
 import jdk.nashorn.api.scripting.NashornScriptEngine;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,6 +12,8 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 public class JSTests {
+
+    private static final Log LOG = LogFactory.getLog(JSTests.class);
 
     private NashornScriptEngine engine = null;
     private CachedFolder rootFolder = null;
@@ -23,7 +27,7 @@ public class JSTests {
             Require.enable(engine, rootFolder);
             engine.eval("print('Nashorn Javascript engine running.');");
         } catch (ScriptException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -33,7 +37,7 @@ public class JSTests {
         try {
             engine.eval("var my = require('testmod.js'); var v=JSON.parse(my); print(v); print('Value is:' + v.snapshotId[\"1\"].nodeId[\"2\"].key1 +'.');");
         } catch (ScriptException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 }

@@ -102,6 +102,26 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>se.eris</groupId>
+        <artifactId>notnull-instrumenter-maven-plugin</artifactId>
+        <version>0.6.6</version>
+        <executions>
+          <execution>
+            <id>instrument</id>
+            <goals>
+              <goal>instrument</goal>
+              <goal>tests-instrument</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <notNull>
+            <param>org.jetbrains.annotations.NotNull</param>
+            <param>javax.annotation.Nonnull</param>
+          </notNull>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>

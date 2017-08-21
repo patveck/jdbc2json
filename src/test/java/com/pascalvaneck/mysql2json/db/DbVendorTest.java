@@ -27,7 +27,7 @@ public class DbVendorTest {
         try {
             assertTrue("Must accept", DriverManager.getDriver(conn).acceptsURL(conn));
         } catch (SQLException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
     }
 

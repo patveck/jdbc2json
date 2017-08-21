@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ListUtils {
+public final class ListUtils {
+
+    private ListUtils() {}
 
     @Nonnull
     public static <T> List<List <T>> allPermutations(@Nonnull List<T> list) {

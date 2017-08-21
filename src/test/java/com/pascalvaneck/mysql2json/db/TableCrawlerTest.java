@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 public class TableCrawlerTest {
 
     Connection conn;
-    DbVisitor visitor = mock(DbVisitor.class);
+    final DbVisitor visitor = mock(DbVisitor.class);
     TableCrawler tc;
 
     @Before

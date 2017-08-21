@@ -8,9 +8,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class TestUtils {
+public final class TestUtils {
 
     private static final Log LOG = LogFactory.getLog(TestUtils.class);
+
+    private TestUtils() {}
 
     static void setUpSimpleTable(@Nonnull final Connection conn) {
         LOG.info("Connection to database established.");

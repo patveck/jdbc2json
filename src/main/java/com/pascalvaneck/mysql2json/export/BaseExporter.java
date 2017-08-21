@@ -4,6 +4,7 @@ import com.pascalvaneck.mysql2json.db.DbVisitor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,7 +20,7 @@ public abstract class BaseExporter implements DbVisitor {
     }
 
     @Override
-    public void visitTable(String s) {
+    public void visitTable(@Nonnull String s) {
         LOG.info("Entering visitTable: " + s);
         Path newPath = outputPath.resolve(s);
         try {
