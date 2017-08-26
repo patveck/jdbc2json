@@ -11,14 +11,14 @@ public final class ListUtils {
     private ListUtils() {}
 
     @Nonnull
-    public static <T> List<List <T>> allPermutations(@Nonnull List<T> list) {
+    public static <T> List<List<T>> allPermutations(@Nonnull List<T> list) {
         if (list.size() == 1) {
             return Collections.singletonList(Collections.singletonList(list.get(0)));
         }
-        LinkedList<List <T>> result = new LinkedList<>();
+        final LinkedList<List<T>> result = new LinkedList<>();
         for (T item : list) {
             for (List<T> onePermutation : allPermutations(listWithoutOneElement(list, item))) {
-                LinkedList<T> subresult = new LinkedList<>(Collections.singletonList(item));
+                final LinkedList<T> subresult = new LinkedList<>(Collections.singletonList(item));
                 subresult.addAll(onePermutation);
                 result.add(subresult);
             }

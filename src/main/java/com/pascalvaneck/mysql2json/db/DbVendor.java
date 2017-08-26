@@ -9,12 +9,12 @@ import java.sql.DriverManager;
 import java.util.Enumeration;
 
 public enum DbVendor {
-    MYSQL ("jdbc:mysql://%s:%s/%s?user=%s&password=%s", true, 3306),
-    MARIADB ("jdbc:mariadb://%s:%s/%s?user=%s&password=%s", true, 3306),
-    POSTGRESQL ("jdbc:postgresql://%s:%s/%s?user=%s&password=%s", true, 5432),
-    SQLITE ("jdbc:sqlite:%s", false, 0),
-    HSQLDBSERVER ("jdbc:hsqldb:hsql://%s:%s/%s;user=%s;password=%s", true, 9001),
-    HSQLDBFILE ("jdbc:hsqldb:file:%s", false, 0);
+    MYSQL("jdbc:mysql://%s:%s/%s?user=%s&password=%s", true, 3306),
+    MARIADB("jdbc:mariadb://%s:%s/%s?user=%s&password=%s", true, 3306),
+    POSTGRESQL("jdbc:postgresql://%s:%s/%s?user=%s&password=%s", true, 5432),
+    SQLITE("jdbc:sqlite:%s", false, 0),
+    HSQLDBSERVER("jdbc:hsqldb:hsql://%s:%s/%s;user=%s;password=%s", true, 9001),
+    HSQLDBFILE("jdbc:hsqldb:file:%s", false, 0);
 
     private static final Log LOG = LogFactory.getLog(DbVendor.class);
 
@@ -39,7 +39,9 @@ public enum DbVendor {
     }
 
     /**
-     * Get connection string for the default port for this vendor on localhost. For SQLite, username and password are ignored.
+     * Get connection string for the default port for this vendor on localhost. For SQLite, username and password are
+     * ignored.
+     *
      * @param dbname Database name (file path in the case of SQLITE).
      * @param username Username
      * @param password Password
@@ -55,7 +57,7 @@ public enum DbVendor {
 
     @Nonnull
     public static String listAllDrivers() {
-        StringBuilder sb = new StringBuilder("JDBC drivers found: ");
+        final StringBuilder sb = new StringBuilder("JDBC drivers found: ");
         for (Enumeration<Driver> e = DriverManager.getDrivers(); e.hasMoreElements();) {
             sb.append(e.nextElement().getClass().getName());
             sb.append(e.hasMoreElements() ? ", " : ".");

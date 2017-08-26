@@ -19,21 +19,23 @@ class Jdbc2Json {
 
     public static final String SEPARATOR_REGEX = ",";
 
-    @Option(name="-h",metaVar="hostname",usage="Connect to MySQl server on given host",aliases="--host")
+    @Option(name = "-h", metaVar = "hostname", usage = "Connect to MySQl server on given host", aliases = "--host")
     private String dbHostname;
 
-    @Option(name="-u",metaVar="username",usage="The MySQL user name to use when connecting to the server",aliases="--user")
+    @Option(name = "-u", metaVar = "username", usage = "The MySQL user name to use when connecting to the server",
+        aliases = "--user")
     private String dbUsername;
 
-    @Option(name="-p",metaVar="password",usage="The password to use when connecting to the server",aliases="--password")
+    @Option(name = "-p", metaVar = "password", usage = "The password to use when connecting to the server",
+        aliases = "--password")
     private String dbPassword;
 
-    @Option(name="--url",metaVar="url",usage="The JDBC connection string")
+    @Option(name = "--url", metaVar = "url", usage = "The JDBC connection string")
     private String dbUrl;
 
     private File outputDir;
 
-    @Option(name="-O",metaVar="dir",usage="Output directory",aliases="--outputdir")
+    @Option(name = "-O", metaVar = "dir", usage = "Output directory", aliases = "--outputdir")
     private void setOutputDir(File outputDir) {
         if (outputDir == null) {
             this.outputDir = new File(System.getProperty("user.dir"));
@@ -42,7 +44,7 @@ class Jdbc2Json {
         }
     }
 
-    @Argument(required=true,metaVar="db",usage="The MySQL database to export")
+    @Argument(required = true, metaVar = "db", usage = "The MySQL database to export")
     private String dbName;
 
     private List<String> includes;
@@ -73,7 +75,8 @@ class Jdbc2Json {
         return dbUrl;
     }
 
-    @Option(name="-I",aliases="--include",metaVar="list",usage="Comma-separated list of table names to include.")
+    @Option(name = "-I", aliases = "--include", metaVar = "list",
+        usage = "Comma-separated list of table names to include.")
     public void setIncludes(String includes) {
         this.includes = parseString(includes, SEPARATOR_REGEX);
     }
@@ -82,7 +85,8 @@ class Jdbc2Json {
         return includes;
     }
 
-    @Option(name="-E",aliases="--exclude",metaVar="list",usage="Comma-separated list of table names to exclude.")
+    @Option(name = "-E", aliases = "--exclude", metaVar = "list",
+        usage = "Comma-separated list of table names to exclude.")
     public void setExcludes(String excludes) {
         this.excludes = parseString(excludes, SEPARATOR_REGEX);
     }

@@ -22,7 +22,7 @@ public abstract class BaseExporter implements DbVisitor {
     @Override
     public void visitTable(@Nonnull String s) {
         LOG.info("Entering visitTable: " + s);
-        Path newPath = outputPath.resolve(s);
+        final Path newPath = outputPath.resolve(s);
         try {
             Files.createDirectory(newPath);
         } catch (IOException e) {

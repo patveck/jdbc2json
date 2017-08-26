@@ -19,6 +19,7 @@ public class TableCrawler {
     private static final Log LOG = LogFactory.getLog(TableCrawler.class);
 
     private static final Pattern SQL92_IDENTIFIER_PATTERN = Pattern.compile("[A-Za-z]\\w*");
+    public static final int SQL92_MAX_IDENTIFIER_LENGTH = 128;
 
     private final Connection conn;
 
@@ -27,7 +28,7 @@ public class TableCrawler {
     }
 
     public void crawl(@Nonnull final String tableName, @Nonnull final DbVisitor visitor) throws SQLException {
-        if (isValidSQL92Identifier(tableName)) {
+        if (isValidSql92Identifier(tableName)) {
             for (String key : getPrimaryKeys(tableName).keySet()) {
                 iterateRows(tableName, key, visitor);
             }
@@ -36,11 +37,12 @@ public class TableCrawler {
         }
     }
 
-    private void iterateRows(@Nonnull String tableName, @Nonnull final String primaryKey, @Nonnull final DbVisitor visitor) throws SQLException {
+    private void iterateRows(@Nonnull String tableName, @Nonnull final String primaryKey,
+                             @Nonnull final DbVisitor visitor) throws SQLException {
         try (Statement stm = conn.createStatement();
              ResultSet rs = stm.executeQuery("SELECT * FROM " + tableName)
         ) {
-            ResultSetMetaData md = rs.getMetaData();
+            final ResultSetMetaData md = rs.getMetaData();
             while (rs.next()) {
                 Map<String, Object> row = new HashMap<>();
                 for (int col = 1; col <= md.getColumnCount(); col++) {
@@ -63,8 +65,9 @@ public class TableCrawler {
         return result;
     }
 
-    private boolean isValidSQL92Identifier(String tableName) {
-        return SQL92_IDENTIFIER_PATTERN.matcher(tableName).matches() && tableName.length() <= 128;
+    private boolean isValidSql92Identifier(String tableName) {
+        return SQL92_IDENTIFIER_PATTERN.matcher(tableName).matches() &&
+            tableName.length() <= SQL92_MAX_IDENTIFIER_LENGTH;
     }
 
 }

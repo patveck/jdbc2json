@@ -27,7 +27,7 @@ public class JsonExporter extends BaseExporter {
     private final List<String> keyColumnNames;
 
     private final LinkedList<String> processedKeys = new LinkedList<>();
-    private boolean arrayStarted = false;
+    private boolean arrayStarted;
 
     public JsonExporter(Path path, @Nonnull final List<String> keyColumnNames) {
         super(path);
@@ -93,7 +93,7 @@ public class JsonExporter extends BaseExporter {
     }
 
     private void exportKeyColumn(@Nonnull Map<String, Object> row, int index) throws IOException {
-       if (previousRowNullOrDifferentKeyValue(row, index)) {
+        if (previousRowNullOrDifferentKeyValue(row, index)) {
             closePreviousObjects(index);
             if (!processedKeys.contains(keyColumnNames.get(index))) {
                 jg.writeStartObject();

@@ -24,9 +24,9 @@ public class DbCrawler {
         final DatabaseMetaData md = conn.getMetaData();
         try (final ResultSet rs = md.getTables(conn.getCatalog(), conn.getSchema(), "%", null)) {
             while (rs.next()) {
-                String tableName = rs.getString("TABLE_NAME");
+                final String tableName = rs.getString("TABLE_NAME");
                 visitor.visitTable(tableName);
-                TableCrawler tc = new TableCrawler(conn);
+                final TableCrawler tc = new TableCrawler(conn);
                 tc.crawl(tableName, visitor);
             }
         }
