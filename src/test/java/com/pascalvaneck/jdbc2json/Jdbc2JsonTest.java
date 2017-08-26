@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json;
+package com.pascalvaneck.jdbc2json;
 
 import org.junit.Test;
 

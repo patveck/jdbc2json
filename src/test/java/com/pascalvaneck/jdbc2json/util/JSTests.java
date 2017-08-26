@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json.util;
+package com.pascalvaneck.jdbc2json.util;
 
 import com.coveo.nashorn_modules.Require;
 import com.coveo.nashorn_modules.ResourceFolder;

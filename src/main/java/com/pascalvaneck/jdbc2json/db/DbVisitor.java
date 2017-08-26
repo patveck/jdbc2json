@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json.db;
+package com.pascalvaneck.jdbc2json.db;
 
 import javax.annotation.Nonnull;
 import java.util.Map;

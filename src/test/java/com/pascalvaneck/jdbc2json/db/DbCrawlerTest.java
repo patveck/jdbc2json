@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json.db;
+package com.pascalvaneck.jdbc2json.db;
 
 import com.fasterxml.jackson.jr.ob.JSON;
 import org.apache.commons.logging.Log;
@@ -14,8 +14,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 
-import static com.pascalvaneck.mysql2json.db.TestUtils.setUpSimpleTable;
-import static com.pascalvaneck.mysql2json.db.TestUtils.tearDownSimpleTable;
+import static com.pascalvaneck.jdbc2json.db.TestUtils.setUpSimpleTable;
+import static com.pascalvaneck.jdbc2json.db.TestUtils.tearDownSimpleTable;
 
 public class DbCrawlerTest {
 

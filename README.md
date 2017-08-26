@@ -1,4 +1,4 @@
-# com.pascalvaneck.mysql2json
+# com.pascalvaneck.jdbc2json
 
 Bettercodehub badge
 Travis badge

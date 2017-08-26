@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json.db;
+package com.pascalvaneck.jdbc2json.db;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.pascalvaneck.mysql2json.db.TestUtils.setUpSimpleTable;
-import static com.pascalvaneck.mysql2json.db.TestUtils.tearDownSimpleTable;
+import static com.pascalvaneck.jdbc2json.db.TestUtils.setUpSimpleTable;
+import static com.pascalvaneck.jdbc2json.db.TestUtils.tearDownSimpleTable;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 

@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json.export;
+package com.pascalvaneck.jdbc2json.export;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

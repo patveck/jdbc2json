@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json.util;
+package com.pascalvaneck.jdbc2json.util;
 
 import com.fasterxml.jackson.jr.ob.JSON;
 import org.apache.commons.logging.Log;

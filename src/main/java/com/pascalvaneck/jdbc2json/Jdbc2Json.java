@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json;
+package com.pascalvaneck.jdbc2json;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.logging.Log;
@@ -19,10 +19,10 @@ class Jdbc2Json {
 
     public static final String SEPARATOR_REGEX = ",";
 
-    @Option(name = "-h", metaVar = "hostname", usage = "Connect to MySQl server on given host", aliases = "--host")
+    @Option(name = "-h", metaVar = "hostname", usage = "Connect to server on given host", aliases = "--host")
     private String dbHostname;
 
-    @Option(name = "-u", metaVar = "username", usage = "The MySQL user name to use when connecting to the server",
+    @Option(name = "-u", metaVar = "username", usage = "The user name to use when connecting to the server",
         aliases = "--user")
     private String dbUsername;
 
@@ -44,7 +44,7 @@ class Jdbc2Json {
         }
     }
 
-    @Argument(required = true, metaVar = "db", usage = "The MySQL database to export")
+    @Argument(required = true, metaVar = "db", usage = "The database to export")
     private String dbName;
 
     private List<String> includes;

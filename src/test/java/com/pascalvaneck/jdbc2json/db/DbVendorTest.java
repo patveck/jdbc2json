@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json.db;
+package com.pascalvaneck.jdbc2json.db;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.pascalvaneck.mysql2json.db.DbVendor.listAllDrivers;
+import static com.pascalvaneck.jdbc2json.db.DbVendor.listAllDrivers;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;

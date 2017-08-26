@@ -1,4 +1,4 @@
-package com.pascalvaneck.mysql2json.export;
+package com.pascalvaneck.jdbc2json.export;
 
 import com.google.common.jimfs.Configuration;
 import com.google.common.jimfs.Jimfs;
