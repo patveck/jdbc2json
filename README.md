@@ -1,6 +1,7 @@
 # com.pascalvaneck.jdbc2json
 
-Bettercodehub badge
+[![BCH compliance](https://bettercodehub.com/edge/badge/patveck/jdbc2json?branch=master)](https://bettercodehub.com/)
+
 Travis badge
 
 Database support
