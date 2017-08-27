@@ -39,6 +39,7 @@
     <maven-checkstyle-plugin.configLocation>checkstyle.xml</maven-checkstyle-plugin.configLocation>
     <notnull-instrumenter-maven-plugin.version>0.6.6</notnull-instrumenter-maven-plugin.version>
     <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
+    <stork-maven-plugin.version>2.4.0</stork-maven-plugin.version>
   </properties>
   <dependencies>
     <dependency>
@@ -175,11 +176,6 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
       </plugin>
@@ -227,6 +223,27 @@
             </manifestEntries>
           </archive>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.fizzed</groupId>
+        <artifactId>stork-maven-plugin</artifactId>
+        <version>${stork-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>stork-launcher</id>
+            <phase>package</phase>
+            <goals>
+              <goal>launcher</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stork-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>assembly</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
 
