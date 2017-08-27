@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static com.pascalvaneck.jdbc2json.db.TestUtils.setUpSimpleTable;
 import static com.pascalvaneck.jdbc2json.db.TestUtils.tearDownSimpleTable;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -42,6 +43,26 @@ public class TableCrawlerTest {
         expected.put("PHONE", "0612345678");
         tc.crawl("CONTACTS", visitor);
         verify(visitor).visitRow(expected);
+    }
+
+    @Test
+    public void testEmptyTableName() {
+        final String expected = "Illegal SQL92 table name";
+        try {
+            tc.crawl("", visitor);
+        } catch (SQLException e) {
+            assertEquals("Exception message should be \"" + expected +"\"", expected, e.getMessage());
+        }
+    }
+
+    @Test
+    public void testIllegalTableName() {
+        final String expected = "Illegal SQL92 table name";
+        try {
+            tc.crawl("CONTACTS; DROP DATABASE;", visitor);
+        } catch (SQLException e) {
+            assertEquals("Exception message should be \"" + expected +"\"", expected, e.getMessage());
+        }
     }
 
 }

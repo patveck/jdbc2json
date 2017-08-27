@@ -44,7 +44,7 @@ public class TableCrawler {
         ) {
             final ResultSetMetaData md = rs.getMetaData();
             while (rs.next()) {
-                Map<String, Object> row = new HashMap<>();
+                final Map<String, Object> row = new HashMap<>();
                 for (int col = 1; col <= md.getColumnCount(); col++) {
                     row.put(md.getColumnName(col), rs.getObject(col));
                 }
