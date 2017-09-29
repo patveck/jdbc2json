@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ListUtilsTest {
 
@@ -110,6 +111,36 @@ public class ListUtilsTest {
         List<String> myList = new ArrayList<>(Arrays.asList("a", "b", "c", "d"));
         assertEquals("allPermutations on two item list returns four items", 24,
             ListUtils.allPermutations(myList).size());
+    }
+
+    @Test
+    public void testParseStringHappyFlow() {
+        List<String> actual = ListUtils.parseString("a,b,piet", ",");
+        assertEquals( "parseString(\"\", \",\") returns empty list", 3, actual.size());
+        assertEquals( "First element is the string \"a\".", "a", actual.get(0));
+        assertEquals( "Second element is the string \"b\".", "b", actual.get(1));
+        assertEquals( "Third element is the string \"piet\".", "piet", actual.get(2));
+    }
+
+    @Test
+    public void testParseStringOneElement() {
+        List<String> actual = ListUtils.parseString("a", ",");
+        assertEquals( "parseString(\"\", \",\") returns empty list", 1, actual.size());
+        assertEquals( "First element is the string \"a\".", "a", actual.get(0));
+    }
+
+    @Test
+    public void testParseStringEmptyString() {
+        List<String> actual = ListUtils.parseString("", ",");
+        assertTrue( "parseString(\"\", \",\") returns empty list", actual.isEmpty());
+
+    }
+
+    @Test
+    public void testParseStringEmptyRegex() {
+        List<String> actual = ListUtils.parseString("a,b,piet", "");
+        assertEquals( "parseString(\"\", \",\") returns one-element list", 1, actual.size());
+        assertEquals( "First element is the string \"a\".", "a,b,piet", actual.get(0));
     }
 
 }

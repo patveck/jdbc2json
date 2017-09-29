@@ -32,7 +32,7 @@ public class DbCrawlerTest {
     @Test
     public void testDbCrawler() {
         try {
-            DbCrawler dbc = new DbCrawler("jdbc:hsqldb:mem:testdb;user=SA");
+            DbCrawler dbc = new DbCrawler("jdbc:hsqldb:mem:testdb;user=SA", null, null);
             dbc.crawl(new DbVisitor() {
 
                 @Override

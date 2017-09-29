@@ -24,12 +24,12 @@ public class JsonExporter extends BaseExporter {
 
     private Map<String, Object> previousRow;
 
-    private final List<String> keyColumnNames;
+    private List<String> keyColumnNames;
 
     private final LinkedList<String> processedKeys = new LinkedList<>();
     private boolean arrayStarted;
 
-    public JsonExporter(Path path, @Nonnull final List<String> keyColumnNames) {
+    public JsonExporter(@Nonnull final Path path, final Syntax syntax) {
         super(path);
         this.keyColumnNames = keyColumnNames;
         try {

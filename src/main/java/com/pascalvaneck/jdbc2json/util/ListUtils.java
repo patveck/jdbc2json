@@ -1,6 +1,7 @@
 package com.pascalvaneck.jdbc2json.util;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,4 +32,17 @@ public final class ListUtils {
         return list.stream().filter(item2 -> item2 != item).collect(Collectors.toList());
     }
 
+    @Nonnull
+    public static List<String> parseString(@Nonnull final String s, @Nonnull final String regex) {
+        if ("".equals(s)) {
+            return Collections.emptyList();
+        }
+        if ("".equals(regex)) {
+            return Collections.singletonList(s);
+        }
+        final List<String> result = new ArrayList<>();
+        final String[] names = s.split(regex);
+        Collections.addAll(result, names);
+        return result;
+    }
 }

@@ -28,12 +28,17 @@ public enum DbVendor {
         this.defaultPort = port;
     }
 
-    public String getConnectionString(String hostname, int port, String dbname, String username, String password) {
+    @Nonnull
+    public String getConnectionString(@Nonnull final String hostname, @Nonnull final int port,
+                                      @Nonnull final String dbname, @Nonnull final String username,
+                                      @Nonnull final String password) {
         // String.format silently ignores superfluous arguments:
         return String.format(url, hostname, port, dbname, username, password);
     }
 
-    public String getConnectionString(String hostname, String dbname, String username, String password) {
+    @Nonnull
+    public String getConnectionString(@Nonnull final String hostname, @Nonnull final String dbname,
+                                      @Nonnull final String username, @Nonnull final String password) {
         // String.format silently ignores superfluous arguments:
         return String.format(url, hostname, defaultPort, dbname, username, password);
     }
@@ -47,9 +52,11 @@ public enum DbVendor {
      * @param password Password
      * @return The connection string
      */
-    public String getConnectionString(String dbname, String username, String password) {
+    @Nonnull
+    public String getConnectionString(@Nonnull final String dbname, @Nonnull final String username,
+                                      @Nonnull final String password) {
         if (networked) {
-            return String.format(url, "localhost", defaultPort, dbname, username, password);
+            return getConnectionString("localhost", dbname, username, password);
         } else {
             return String.format(url, dbname);
         }

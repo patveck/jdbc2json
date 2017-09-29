@@ -9,6 +9,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class DbCrawler {
 
@@ -16,19 +17,37 @@ public class DbCrawler {
 
     private final Connection conn;
 
-    public DbCrawler(String url) throws SQLException {
+    protected final List<String> includes;
+
+    protected final List<String> excludes;
+
+    public DbCrawler(@Nonnull final String url, final List<String> includes, final List<String> excludes) throws SQLException {
         conn = DriverManager.getConnection(url);
+        this.includes = includes;
+        this.excludes = excludes;
     }
 
     public void crawl(@Nonnull DbVisitor visitor) throws SQLException {
         final DatabaseMetaData md = conn.getMetaData();
-        try (final ResultSet rs = md.getTables(conn.getCatalog(), conn.getSchema(), "%", null)) {
-            while (rs.next()) {
-                final String tableName = rs.getString("TABLE_NAME");
-                visitor.visitTable(tableName);
-                final TableCrawler tc = new TableCrawler(conn);
-                tc.crawl(tableName, visitor);
+        if (includes != null) {
+            for (String tableName : includes) {
+                doTable(visitor, tableName);
             }
+        } else {
+            try (final ResultSet rs = md.getTables(conn.getCatalog(), conn.getSchema(), "%", null)) {
+                while (rs.next()) {
+                    final String tableName = rs.getString("TABLE_NAME");
+                    doTable(visitor, tableName);
+                }
+            }
+        }
+    }
+
+    private void doTable(@Nonnull DbVisitor visitor, String tableName) throws SQLException {
+        if (excludes != null && !excludes.contains(tableName)) {
+            visitor.visitTable(tableName);
+            final TableCrawler tc = new TableCrawler(conn);
+            tc.crawl(tableName, visitor);
         }
     }
 

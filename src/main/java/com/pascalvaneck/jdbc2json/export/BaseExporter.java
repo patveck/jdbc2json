@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public abstract class BaseExporter implements DbVisitor {
 
@@ -15,7 +16,7 @@ public abstract class BaseExporter implements DbVisitor {
 
     protected final Path outputPath;
 
-    public BaseExporter(Path outputPath) {
+    public BaseExporter(@Nonnull final Path outputPath) {
         this.outputPath = outputPath;
     }
 
