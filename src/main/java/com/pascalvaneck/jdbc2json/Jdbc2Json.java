@@ -78,7 +78,7 @@ class Jdbc2Json {
         }
         try {
             DbCrawler dbCrawler = new DbCrawler(conn, includes, excludes);
-            JsonExporter jsonExporter = new JsonExporter(outputDir.toPath(), syntax);
+            JsonExporter jsonExporter = new JsonExporter(outputDir.toPath(), syntax, getIncludes());
             dbCrawler.crawl(jsonExporter);
         } catch (SQLException e) {
             e.printStackTrace();

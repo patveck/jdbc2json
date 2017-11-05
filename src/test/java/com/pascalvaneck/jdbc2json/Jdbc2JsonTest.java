@@ -39,7 +39,7 @@ public class Jdbc2JsonTest {
 
     @Test
     public void testIncludesAndExcludes() throws CmdLineException {
-        final String[] args = {"-I", "table1,table2", "--exclude=table3", "-f", "ES2015", "mydb"};
+        final String[] args = {"-e", "MySQL", "-I", "table1,table2", "--exclude=table3", "-f", "ES2015", "-h", "localhost", "-u", "user", "-p", "pw", "mydb"};
         jdbc2Json.parseArguments(args);
         assertEquals( "There are two includes.",2, jdbc2Json.getIncludes().size());
         assertEquals("First include is 'table1'.", "table1", jdbc2Json.getIncludes().get(0));

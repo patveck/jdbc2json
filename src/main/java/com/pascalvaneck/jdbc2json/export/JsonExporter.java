@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,25 +30,11 @@ public class JsonExporter extends BaseExporter {
     private final LinkedList<String> processedKeys = new LinkedList<>();
     private boolean arrayStarted;
 
-    public JsonExporter(@Nonnull final Path path, final Syntax syntax) {
+    public JsonExporter(@Nonnull final Path path, final Syntax syntax, @Nonnull final List<String> keyColumnNames) {
         super(path);
         this.keyColumnNames = keyColumnNames;
         try {
-            jg = jf.createGenerator(path.toFile(), JsonEncoding.UTF8);
-        } catch (IOException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
-
-    // TODO: for testing purposes only; remove.
-    public JsonExporter(@Nonnull final Writer writer, @Nonnull final List<String> keyColumnNames) {
-        // TODO: do not pass null.
-        super(null);
-        this.keyColumnNames = keyColumnNames;
-        try {
-            jg = jf.createGenerator(writer);
-            // TODO: make into option:
-//            jg.useDefaultPrettyPrinter();
+            jg = jf.createGenerator(Files.newBufferedWriter(path));
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         }
