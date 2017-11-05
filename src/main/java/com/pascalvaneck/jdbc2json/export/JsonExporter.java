@@ -1,6 +1,5 @@
 package com.pascalvaneck.jdbc2json.export;
 
-import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.apache.commons.logging.Log;
@@ -8,7 +7,6 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
@@ -112,18 +110,6 @@ public class JsonExporter extends BaseExporter {
             }
         }
         jg.writeEndObject();
-    }
-
-    private boolean previousRowNullOrDifferentKeyValue(@Nonnull final Map<String, Object> row) {
-        if (previousRow == null) {
-            return true;
-        }
-        for (String key : keyColumnNames) {
-            if (!previousRow.get(key).equals(row.get(key))) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private boolean previousRowNullOrDifferentKeyValue(@Nonnull final Map<String, Object> row, final int index) {

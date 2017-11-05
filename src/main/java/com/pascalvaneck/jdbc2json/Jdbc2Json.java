@@ -43,7 +43,7 @@ class Jdbc2Json {
         aliases = "--password", forbids = "--url", depends = {"-e", "-h", "-u"})
     private String dbPassword = "";
 
-    @Option(name = "--url", metaVar = "url", usage = "The JDBC connection string", forbids = {"-e","-h","-u","-p"})
+    @Option(name = "--url", metaVar = "url", usage = "The JDBC connection string", forbids = {"-e", "-h", "-u", "-p"})
     private String dbUrl;
 
     @Option(name = "-f", metaVar = "format", usage = "Output format", aliases = "--format", required = true)
@@ -70,15 +70,15 @@ class Jdbc2Json {
     }
 
     public void run() {
-        String conn;
+        final String conn;
         if (dbHostname != null) {
             conn = dbVendor.getConnectionString(dbHostname, dbName, dbUsername, dbPassword);
         } else {
             conn = dbVendor.getConnectionString(dbName, dbUsername, dbPassword);
         }
         try {
-            DbCrawler dbCrawler = new DbCrawler(conn, includes, excludes);
-            JsonExporter jsonExporter = new JsonExporter(outputDir.toPath(), syntax, getIncludes());
+            final DbCrawler dbCrawler = new DbCrawler(conn, includes, excludes);
+            final JsonExporter jsonExporter = new JsonExporter(outputDir.toPath(), syntax, getIncludes());
             dbCrawler.crawl(jsonExporter);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,9 +106,13 @@ class Jdbc2Json {
         return dbUrl;
     }
 
-    public DbVendor getDbVendor() { return dbVendor; }
+    public DbVendor getDbVendor() {
+        return dbVendor;
+    }
 
-    public Syntax getSyntax() { return syntax; }
+    public Syntax getSyntax() {
+        return syntax;
+    }
 
     @Option(name = "-I", aliases = "--include", metaVar = "list",
         usage = "Comma-separated list of table names to include.")
@@ -147,8 +151,8 @@ class Jdbc2Json {
             if (dbUrl == null && (dbHostname == null || dbUsername == null || dbPassword == null)) {
                 printUsage(parser);
                 throw new CmdLineException(parser,
-                                           new Throwable("Either a connection string or hostname, " +
-                                                             "username and password have to be set."));
+                                           new Throwable("Either a connection string or hostname, "
+                                                             + "username and password have to be set."));
             }
         } catch (CmdLineException e) {
             printUsage(parser);

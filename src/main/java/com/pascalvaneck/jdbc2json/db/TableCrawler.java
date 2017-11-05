@@ -55,8 +55,8 @@ public class TableCrawler {
 
     @Nonnull
     private Map<String, Short> getPrimaryKeys(@Nonnull final String tableName) throws SQLException {
-        DatabaseMetaData md = conn.getMetaData();
-        Map<String, Short> result = new HashMap<>();
+        final DatabaseMetaData md = conn.getMetaData();
+        final Map<String, Short> result = new HashMap<>();
         try (ResultSet rs = md.getPrimaryKeys(conn.getCatalog(), conn.getSchema(), tableName)) {
             while (rs.next()) {
                 result.put(rs.getString("COLUMN_NAME"), rs.getShort("KEY_SEQ"));
@@ -66,8 +66,8 @@ public class TableCrawler {
     }
 
     private boolean isValidSql92Identifier(String tableName) {
-        return SQL92_IDENTIFIER_PATTERN.matcher(tableName).matches() &&
-            tableName.length() <= SQL92_MAX_IDENTIFIER_LENGTH;
+        return SQL92_IDENTIFIER_PATTERN.matcher(tableName).matches()
+            && tableName.length() <= SQL92_MAX_IDENTIFIER_LENGTH;
     }
 
 }
