@@ -28,8 +28,13 @@ public final class ListUtils {
     }
 
     @Nonnull
-    static <T> List<T> listWithoutOneElement(@Nonnull List<T> list, T item) {
+    public static <T> List<T> listWithoutOneElement(@Nonnull final List<T> list, final T item) {
         return list.stream().filter(item2 -> item2 != item).collect(Collectors.toList());
+    }
+
+    @Nonnull
+    public static <T> List<T> listWithoutList(@Nonnull final List<T> list1, @Nonnull final List<T> list2) {
+        return list1.stream().filter(item -> !list2.contains(item)).collect(Collectors.toList());
     }
 
     @Nonnull

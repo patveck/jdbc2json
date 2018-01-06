@@ -7,6 +7,8 @@ import org.junit.Test;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +28,7 @@ public class TableCrawlerTest {
     public void setUp() throws SQLException {
         conn = DriverManager.getConnection("jdbc:hsqldb:mem:testdb", "SA", "");
         setUpSimpleTable(conn);
-        tc = new TableCrawler(conn);
+        tc = new TableCrawler(conn, new ArrayList<>(Collections.singletonList("NAME")));
     }
 
     @After

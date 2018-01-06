@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public abstract class BaseExporter implements DbVisitor {
 
@@ -15,14 +16,16 @@ public abstract class BaseExporter implements DbVisitor {
 
     protected final Path outputPath;
 
+    protected List<String> keyColumnNames;
+
     public BaseExporter(@Nonnull final Path outputPath) {
         this.outputPath = outputPath;
     }
 
     @Override
-    public void visitTable(@Nonnull String s) {
-        LOG.info("Entering visitTable: " + s);
-        final Path newPath = outputPath.resolve(s);
+    public void visitTable(@Nonnull String tableName, @Nonnull List<String> keyColumnNames) {
+        this.keyColumnNames = keyColumnNames;
+        final Path newPath = outputPath.resolve(tableName);
         try {
             Files.createDirectory(newPath);
         } catch (IOException e) {

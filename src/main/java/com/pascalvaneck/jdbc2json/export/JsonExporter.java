@@ -6,7 +6,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.annotation.Nonnull;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
@@ -23,25 +27,41 @@ public class JsonExporter extends BaseExporter {
 
     private Map<String, Object> previousRow;
 
-    private List<String> keyColumnNames;
-
     private final LinkedList<String> processedKeys = new LinkedList<>();
+
     private boolean arrayStarted;
 
-    public JsonExporter(@Nonnull final Path path, final Syntax syntax, @Nonnull final List<String> keyColumnNames) {
+    private Syntax syntax;
+
+    private OutputStream stream;
+
+    public JsonExporter(@Nonnull final Path path, @Nonnull final Syntax syntax) {
         super(path);
-        this.keyColumnNames = keyColumnNames;
+        this.syntax = syntax;
+    }
+
+    @Override
+    public void close() {
         try {
-            jg = jf.createGenerator(Files.newBufferedWriter(path));
+            jg.flush();
+            jg.close();
+            stream.write(syntax.getPostfix().getBytes(Charset.forName("UTF-8")));
+            stream.close();
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         }
     }
 
     @Override
-    public void close() {
+    public void visitTable(@Nonnull String tableName, @Nonnull List<String> keyColumnNames) {
+        super.visitTable(tableName, keyColumnNames);
         try {
-            jg.close();
+            final Path path = outputPath.resolve(tableName + syntax.getExtension());
+            Files.createFile(path);
+            stream = Files.newOutputStream(path);
+            stream.write(syntax.getPrefix(tableName).getBytes(Charset.forName("UTF-8")));
+            stream.flush();
+            jg = jf.createGenerator(stream).configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import static com.pascalvaneck.jdbc2json.db.TestUtils.setUpSimpleTable;
@@ -36,7 +37,7 @@ public class DbCrawlerTest {
             dbc.crawl(new DbVisitor() {
 
                 @Override
-                public void visitTable(@Nonnull final String s) {
+                public void visitTable(@Nonnull final String s, @Nonnull final List<String> keyColumnNames) {
                     LOG.info("Visiting " + s + ".");
                 }
 

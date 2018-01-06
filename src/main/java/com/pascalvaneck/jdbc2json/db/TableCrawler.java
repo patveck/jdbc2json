@@ -1,5 +1,6 @@
 package com.pascalvaneck.jdbc2json.db;
 
+import com.pascalvaneck.jdbc2json.util.ListUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -10,7 +11,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -21,15 +24,21 @@ public class TableCrawler {
     private static final Pattern SQL92_IDENTIFIER_PATTERN = Pattern.compile("[A-Za-z]\\w*");
     public static final int SQL92_MAX_IDENTIFIER_LENGTH = 128;
 
+    private static final String QUERY = "SELECT %s, %s FROM %s ORDER BY %s";
+
     private final Connection conn;
 
-    public TableCrawler(Connection conn) {
+    private final List<String> primaryKeys;
+
+    public TableCrawler(@Nonnull final Connection conn, @Nonnull final List<String> primaryKeys) {
         this.conn = conn;
+        this.primaryKeys= primaryKeys;
     }
 
     public void crawl(@Nonnull final String tableName, @Nonnull final DbVisitor visitor) throws SQLException {
         if (isValidSql92Identifier(tableName)) {
-            for (String key : getPrimaryKeys(tableName).keySet()) {
+            visitor.visitTable(tableName, primaryKeys);
+            for (String key : primaryKeys) {
                 iterateRows(tableName, key, visitor);
             }
         } else {
@@ -40,7 +49,7 @@ public class TableCrawler {
     private void iterateRows(@Nonnull String tableName, @Nonnull final String primaryKey,
                              @Nonnull final DbVisitor visitor) throws SQLException {
         try (Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT * FROM " + tableName)
+             ResultSet rs = stm.executeQuery(buildQuery(tableName))
         ) {
             final ResultSetMetaData md = rs.getMetaData();
             while (rs.next()) {
@@ -53,17 +62,31 @@ public class TableCrawler {
         }
     }
 
+    private String buildQuery(@Nonnull final String tableName) throws SQLException {
+        String result = String.format(QUERY,
+                                      String.join( ", ", primaryKeys),
+                                      String.join(", ",
+                                                  ListUtils.listWithoutList(getAllColumns(tableName), primaryKeys)),
+                                      tableName,
+                                      String.join(", ", primaryKeys));
+        LOG.info(result);
+        return result;
+    }
+
     @Nonnull
-    private Map<String, Short> getPrimaryKeys(@Nonnull final String tableName) throws SQLException {
-        final DatabaseMetaData md = conn.getMetaData();
-        final Map<String, Short> result = new HashMap<>();
-        try (ResultSet rs = md.getPrimaryKeys(conn.getCatalog(), conn.getSchema(), tableName)) {
+    private List<String> getAllColumns(@Nonnull final String tableName) {
+        List<String> result = new ArrayList<String>();
+        try (ResultSet rs = conn.getMetaData().getColumns(conn.getCatalog(), conn.getSchema(), tableName, null)) {
             while (rs.next()) {
-                result.put(rs.getString("COLUMN_NAME"), rs.getShort("KEY_SEQ"));
+                result.add(rs.getString("COLUMN_NAME"));
             }
+            rs.close();
+        } catch (SQLException e) {
+            LOG.fatal(e.getMessage(), e);
         }
         return result;
     }
+
 
     private boolean isValidSql92Identifier(String tableName) {
         return SQL92_IDENTIFIER_PATTERN.matcher(tableName).matches()

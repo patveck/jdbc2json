@@ -33,8 +33,8 @@ public class JsonExporterTest {
     @Before
     public void setUp() throws Exception {
         fs = Jimfs.newFileSystem(Configuration.unix());
-        testOutput = fs.getPath("/foo.json");
-        Files.createFile(testOutput);
+        testOutput = fs.getPath("/foo");
+        Files.createDirectory(testOutput);
     }
 
     @After
@@ -43,12 +43,17 @@ public class JsonExporterTest {
     }
 
     private String fileToString(@Nonnull final Path path) throws IOException {
-        return new String(Files.readAllBytes(path));
+        return new String(Files.readAllBytes(path.resolve("dummy.js")));
+    }
+
+    private String decorate(String s, String tableName, Syntax syntax) {
+        return syntax.getPrefix(tableName) + s + syntax.getPostfix();
     }
 
     @Test
     public void testVisitTwoRowsNoKey() throws IOException {
-        JsonExporter je = new JsonExporter(testOutput, Syntax.COMMONJS, Collections.emptyList());
+        JsonExporter je = new JsonExporter(testOutput, Syntax.COMMONJS);
+        je.visitTable("dummy", Collections.emptyList());
         Map<String, Object> given = new HashMap<>();
         given.put("key2", 1);
         given.put("name", "name1");
@@ -61,13 +66,14 @@ public class JsonExporterTest {
         LOG.debug("Second row done. Got so far: " + fileToString(testOutput));
         je.close();
         LOG.debug("All done. Got: " + fileToString(testOutput));
-        String expected = "[{\"key2\":1,\"name\":\"name1\"},{\"key2\":2,\"name\":\"name2\"}]";
+        String expected = decorate("[{\"key2\":1,\"name\":\"name1\"},{\"key2\":2,\"name\":\"name2\"}]", "dummy", Syntax.COMMONJS);
         assertEquals("Result must match expected JSON", expected, fileToString(testOutput));
     }
 
     @Test
     public void testVisitOneRowOneKey() throws IOException {
-        JsonExporter je = new JsonExporter(testOutput, Syntax.COMMONJS, Collections.singletonList("key2"));
+        JsonExporter je = new JsonExporter(testOutput, Syntax.AMD);
+        je.visitTable("dummy", Collections.singletonList("key2"));
         Map<String, Object> given = new HashMap<>();
         given.put("key2", 1);
         given.put("name", "name1");
@@ -75,13 +81,14 @@ public class JsonExporterTest {
         LOG.debug("First row done. Got so far: " + fileToString(testOutput));
         je.close();
         LOG.debug("All done. Got: " + fileToString(testOutput));
-        String expected = "{\"key2\":{\"1\":{\"name\":\"name1\"}}}";
+        String expected = decorate("{\"key2\":{\"1\":{\"name\":\"name1\"}}}", "dummy", Syntax.AMD);
         assertEquals("Result must match expected JSON", expected, fileToString(testOutput));
     }
 
     @Test
     public void testVisitTwoRowsOneKey() throws IOException {
-        JsonExporter je = new JsonExporter(testOutput, Syntax.COMMONJS, Collections.singletonList("key2"));
+        JsonExporter je = new JsonExporter(testOutput, Syntax.ES2015);
+        je.visitTable("dummy", Collections.singletonList("key2"));
         Map<String, Object> given = new HashMap<>();
         given.put("key2", 1);
         given.put("name", "name1");
@@ -94,13 +101,14 @@ public class JsonExporterTest {
         LOG.info("Second row done. Got so far: " + fileToString(testOutput));
         je.close();
         LOG.info("All done. Got: " + fileToString(testOutput));
-        String expected = "{\"key2\":{\"1\":{\"name\":\"name1\"},\"2\":{\"name\":\"name2\"}}}";
+        String expected = decorate("{\"key2\":{\"1\":{\"name\":\"name1\"},\"2\":{\"name\":\"name2\"}}}", "dummy", Syntax.ES2015);
         assertEquals("Result must match expected JSON", expected, fileToString(testOutput));
     }
 
     @Test
     public void testVisitFourRowsTwoKeys() throws IOException {
-        JsonExporter je = new JsonExporter(testOutput, Syntax.COMMONJS, new ArrayList<>(Arrays.asList("key1", "key2")));
+        JsonExporter je = new JsonExporter(testOutput, Syntax.ES2015);
+        je.visitTable("dummy", new ArrayList<>(Arrays.asList("key1", "key2")));
         Map<String, Object> given = new HashMap<>();
         given.put("key1", "a");
         given.put("key2", 1);
@@ -127,13 +135,14 @@ public class JsonExporterTest {
         LOG.info("Fourth row done. Got so far: " + fileToString(testOutput));
         je.close();
         LOG.info("All done. Got: " + fileToString(testOutput));
-        String expected = "{\"key1\":{\"a\":{\"key2\":{\"1\":{\"name\":\"name1\"},\"2\":{\"name\":\"name2\"}}},\"b\":{\"key2\":{\"1\":{\"name\":\"name3\"},\"2\":{\"name\":\"name4\"}}}}}";
+        String expected = decorate("{\"key1\":{\"a\":{\"key2\":{\"1\":{\"name\":\"name1\"},\"2\":{\"name\":\"name2\"}}},\"b\":{\"key2\":{\"1\":{\"name\":\"name3\"},\"2\":{\"name\":\"name4\"}}}}}", "dummy", Syntax.ES2015);
         assertEquals("Result must match expected JSON", expected, fileToString(testOutput));
     }
 
     @Test
     public void testVisitTwoRowsTwoKeys() throws IOException {
-        JsonExporter je = new JsonExporter(testOutput, Syntax.COMMONJS, new ArrayList<>(Arrays.asList("key1", "key2")));
+        JsonExporter je = new JsonExporter(testOutput, Syntax.COMMONJS);
+        je.visitTable("dummy", new ArrayList<>(Arrays.asList("key1", "key2")));
         Map<String, Object> given = new HashMap<>();
         given.put("key1", "a");
         given.put("key2", 1);
@@ -148,7 +157,7 @@ public class JsonExporterTest {
         LOG.info("Second row done. Got so far: " + fileToString(testOutput));
         je.close();
         LOG.info("All done. Got: " + fileToString(testOutput));
-        String expected = "{\"key1\":{\"a\":{\"key2\":{\"1\":{\"name\":\"name1\"}}},\"b\":{\"key2\":{\"1\":{\"name\":\"name3\"}}}}}";
+        String expected = decorate("{\"key1\":{\"a\":{\"key2\":{\"1\":{\"name\":\"name1\"}}},\"b\":{\"key2\":{\"1\":{\"name\":\"name3\"}}}}}", "dummy", Syntax.COMMONJS);
         assertEquals("Result must match expected JSON", expected, fileToString(testOutput));
     }
 

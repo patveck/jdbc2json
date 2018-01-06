@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
@@ -45,7 +46,7 @@ public class BaseExporterTest {
             }
             public void close() {}
         };
-        be.visitTable("bar");
+        be.visitTable("bar", Collections.emptyList());
         assertTrue("Path /foo/bar should exist", Files.exists(fs.getPath("/foo/bar")));
     }
 
