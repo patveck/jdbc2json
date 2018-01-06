@@ -2,6 +2,7 @@ package com.pascalvaneck.jdbc2json;
 
 import com.pascalvaneck.jdbc2json.db.DbVendor;
 import com.pascalvaneck.jdbc2json.export.Syntax;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.kohsuke.args4j.CmdLineException;
@@ -10,6 +11,7 @@ import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 public class Jdbc2JsonTest {
 
@@ -46,6 +48,13 @@ public class Jdbc2JsonTest {
         assertEquals("Second include is 'table2'.", "table2", jdbc2Json.getIncludes().get(1));
         assertEquals( "There is one excludes.",1, jdbc2Json.getExcludes().size());
         assertEquals("First include is 'table3'.", "table3", jdbc2Json.getExcludes().get(0));
+    }
+
+    @Test
+    public void testGetVersion() {
+        String prefix = "Jdbc2json version: ";
+        assertThat(String.format("Should return string that starts with %s", prefix),
+            jdbc2Json.getVersion(), CoreMatchers.startsWith(prefix));
     }
 
 }

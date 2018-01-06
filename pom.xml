@@ -38,7 +38,7 @@
     <maven-checkstyle-plugin.configLocation>checkstyle.xml</maven-checkstyle-plugin.configLocation>
     <notnull-instrumenter-maven-plugin.version>0.6.6</notnull-instrumenter-maven-plugin.version>
     <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
-    <stork-maven-plugin.version>2.7.0</stork-maven-plugin.version>
+    <git-commit-id-plugin.version>2.2.4</git-commit-id-plugin.version>
   </properties>
   <dependencies>
     <dependency>
@@ -128,6 +128,16 @@
     </dependency>
   </dependencies>
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -224,25 +234,35 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>com.fizzed</groupId>
-        <artifactId>stork-maven-plugin</artifactId>
-        <version>${stork-maven-plugin.version}</version>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>${git-commit-id-plugin.version}</version>
         <executions>
           <execution>
-            <id>stork-launcher</id>
-            <phase>package</phase>
+            <id>get-the-git-infos</id>
             <goals>
-              <goal>launcher</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>stork-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>assembly</goal>
+              <goal>revision</goal>
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+          <dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
+          <dateFormatTimeZone>${user.timezone}</dateFormatTimeZone>
+          <verbose>false</verbose>
+          <failOnUnableToExtractRepoInfo>true</failOnUnableToExtractRepoInfo>
+          <commitIdGenerationMode>full</commitIdGenerationMode>
+          <gitDescribe>
+            <skip>false</skip>
+            <always>false</always>
+            <abbrev>7</abbrev>
+            <dirty>-dirty</dirty>
+            <match>*</match>
+            <tags>false</tags>
+            <forceLongFormat>false</forceLongFormat>
+          </gitDescribe>
+          <evaluateOnCommit>HEAD</evaluateOnCommit>
+        </configuration>
       </plugin>
     </plugins>
 
