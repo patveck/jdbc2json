@@ -13,9 +13,12 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import javax.annotation.Nonnull;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
 class Jdbc2Json {
 
@@ -46,7 +49,7 @@ class Jdbc2Json {
     @Option(name = "--url", metaVar = "url", usage = "The JDBC connection string", forbids = {"-e", "-h", "-u", "-p"})
     private String dbUrl;
 
-    @Option(name = "-f", metaVar = "format", usage = "Output format", aliases = "--format", required = true)
+    @Option(name = "-f", metaVar = "format", usage = "Output format", aliases = "--format")
     private Syntax syntax;
 
     @Option(name = "-O", metaVar = "dir", usage = "Output directory", aliases = "--outputdir")
@@ -56,7 +59,10 @@ class Jdbc2Json {
         return outputDir;
     }
 
-    @Argument(required = true, metaVar = "db", usage = "The database to export")
+    @Option(name = "--version", usage = "Print version information")
+    private boolean version;
+
+    @Argument(metaVar = "db", usage = "The database to export")
     private String dbName;
 
     private List<String> includes;
@@ -148,22 +154,45 @@ class Jdbc2Json {
         final CmdLineParser parser = new CmdLineParser(jdbc2Json);
         try {
             parser.parseArgument(args);
-            if (dbUrl == null && (dbHostname == null || dbUsername == null || dbPassword == null)) {
-                printUsage(parser);
-                throw new CmdLineException(parser,
-                                           new Throwable("Either a connection string or hostname, "
-                                                             + "username and password have to be set."));
+            if (version) {
+                LOG.info(getVersion());
+                System.exit(0);
             }
+            checkArguments(parser);
         } catch (CmdLineException e) {
             printUsage(parser);
             throw e;
         }
     }
 
-    private void printUsage(CmdLineParser parser) {
+    void checkArguments(@Nonnull final CmdLineParser parser) throws CmdLineException {
+        if (dbUrl == null && (dbHostname == null || dbUsername == null || dbPassword == null)) {
+            throw new CmdLineException(parser, new Throwable("Either a connection string or hostname, "
+                    + "username and password have to be set."));
+        }
+        if (syntax == null) {
+            throw new CmdLineException(parser, new Throwable("A format (syntax) needs to be set."));
+        }
+        if (dbName == null || "".equals(dbName)) {
+            throw new CmdLineException(parser, new Throwable("A non-empty database name needs to be given."));
+        }
+    }
+
+    private void printUsage(@Nonnull final CmdLineParser parser) {
         final ByteArrayOutputStream err = new ByteArrayOutputStream();
         parser.printUsage(err);
         LOG.error(err.toString(java.nio.charset.StandardCharsets.UTF_8));
+    }
+
+    @Nonnull public String getVersion() {
+        Properties properties = new Properties();
+        try {
+            properties.load(getClass().getClassLoader().getResourceAsStream("git.properties"));
+            return String.format("Jdbc2json version: %s", properties.getProperty("git.commit.id.describe"));
+        } catch (IOException e) {
+            LOG.error("Cannot read git.properties", e);
+        }
+        return "No version information available";
     }
 
 }
