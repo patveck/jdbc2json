@@ -12,18 +12,18 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>4.12</junit.version>
-    <mockito.version>2.11.0</mockito.version>
+    <mockito.version>2.13.0</mockito.version>
     <args4j.version>2.33</args4j.version>
     <commons-io.version>2.6</commons-io.version>
     <commons-logging.version>1.2</commons-logging.version>
-    <log4j.version>2.9.1</log4j.version>
+    <log4j.version>2.10.0</log4j.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <sqlite-jdbc.version>3.20.1</sqlite-jdbc.version>
+    <sqlite-jdbc.version>3.21.0.1</sqlite-jdbc.version>
     <hsqldb.version>2.4.0</hsqldb.version>
     <postgresql.version>42.1.4</postgresql.version>
-    <mariadb-java-client.version>2.1.2</mariadb-java-client.version>
+    <mariadb-java-client.version>2.2.1</mariadb-java-client.version>
     <jimfs.version>1.1</jimfs.version>
-    <jackson-jr-objects.version>2.9.2</jackson-jr-objects.version>
+    <jackson-jr-objects.version>2.9.3</jackson-jr-objects.version>
     <nashorn-commonjs-modules.version>1.0.9</nashorn-commonjs-modules.version>
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
@@ -34,11 +34,11 @@
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
     <maven-pmd-plugin.version>3.8</maven-pmd-plugin.version>
     <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
-    <checkstyle.version>8.3</checkstyle.version>
+    <checkstyle.version>8.5</checkstyle.version>
     <maven-checkstyle-plugin.configLocation>checkstyle.xml</maven-checkstyle-plugin.configLocation>
     <notnull-instrumenter-maven-plugin.version>0.6.6</notnull-instrumenter-maven-plugin.version>
     <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
-    <stork-maven-plugin.version>2.6.1</stork-maven-plugin.version>
+    <stork-maven-plugin.version>2.7.0</stork-maven-plugin.version>
   </properties>
   <dependencies>
     <dependency>
