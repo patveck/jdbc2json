@@ -2,6 +2,7 @@
 
 [![BCH compliance](https://bettercodehub.com/edge/badge/patveck/jdbc2json?branch=master)](https://bettercodehub.com/)
 [![Build Status](https://travis-ci.org/patveck/jdbc2json.svg?branch=master)](https://travis-ci.org/patveck/jdbc2json)
+[![codecov](https://codecov.io/gh/patveck/jdbc2json/branch/master/graph/badge.svg)](https://codecov.io/gh/patveck/jdbc2json)
 
 Database support
 
