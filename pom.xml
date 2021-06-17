@@ -20,7 +20,7 @@
     <jsr305.version>3.0.2</jsr305.version>
     <sqlite-jdbc.version>3.21.0.1</sqlite-jdbc.version>
     <hsqldb.version>2.4.0</hsqldb.version>
-    <postgresql.version>42.2.5</postgresql.version>
+    <postgresql.version>42.2.13</postgresql.version>
     <mariadb-java-client.version>2.2.1</mariadb-java-client.version>
     <jimfs.version>1.1</jimfs.version>
     <jackson-jr-objects.version>2.9.3</jackson-jr-objects.version>
