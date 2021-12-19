@@ -14,7 +14,7 @@
     <junit.version>4.12</junit.version>
     <mockito.version>2.13.0</mockito.version>
     <args4j.version>2.33</args4j.version>
-    <commons-io.version>2.6</commons-io.version>
+    <commons-io.version>2.7</commons-io.version>
     <commons-logging.version>1.2</commons-logging.version>
     <log4j.version>2.16.0</log4j.version>
     <jsr305.version>3.0.2</jsr305.version>
