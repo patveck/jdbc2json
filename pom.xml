@@ -23,7 +23,7 @@
     <postgresql.version>42.3.8</postgresql.version>
     <mariadb-java-client.version>2.2.1</mariadb-java-client.version>
     <jimfs.version>1.1</jimfs.version>
-    <jackson-jr-objects.version>2.9.3</jackson-jr-objects.version>
+    <jackson-jr-objects.version>2.13.0</jackson-jr-objects.version>
     <nashorn-commonjs-modules.version>1.0.9</nashorn-commonjs-modules.version>
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
